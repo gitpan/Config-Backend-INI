@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use Config::IniFiles;
 
-our $VERSION='0.11';
+our $VERSION='0.12';
 
 my $DEFSECT="!!Conf::INI!!default!!";
 
@@ -18,8 +18,7 @@ sub new {
   if ((-z $file) or (not -e $file)) {
     $ini=new Config::IniFiles();
     $ini->newval($DEFSECT,$DEFSECT,1);
-    print $ini->val($DEFSECT,$DEFSECT),"\n";
-     $ini->WriteConfig($file);
+    $ini->WriteConfig($file);
   }
   $ini=new Config::IniFiles(-file => $file);
   if (not defined $ini) {
