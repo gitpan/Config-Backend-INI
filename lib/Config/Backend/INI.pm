@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use Config::IniFiles;
 
-our $VERSION='0.09';
+our $VERSION='0.10';
 
 my $DEFSECT="!!Conf::INI!!default!!";
 
@@ -51,6 +51,9 @@ sub set {
   if (not defined $self->{"ini"}->setval($section,$var,$val)) {
     $self->{"ini"}->newval($section,$var,$val);
   }
+
+  $self->{"ini"}->RewriteConfig();
+
 }
 
 sub get {
@@ -75,6 +78,9 @@ sub del {
     $section=$DEFSECT;
   }
   $self->{"ini"}->delval($section,$var);
+
+  $self->{"ini"}->RewriteConfig();
+
 }
 
 sub variables {
@@ -114,11 +120,8 @@ are divided in a section and a variable.
 =head1 Description
 
 This module uses Config::IniFiles for reading and writing .INI files.
-Each call to C<set()> will B<not> immediately result in a 
+Each call to C<set()> or C<del()> will immediately result in a 
 commit to the .ini file.
-
-Each call C<set()> will immediately result in a commit 
-to the database.
 
 =head2 C<new(filename) --E<gt> Config::Backend::INI>
 
