@@ -1,3 +1,4 @@
+0.09 Changed a testcase to have multiple lines for a value.
 
 0.08 Changed namespace from Conf::INI -> Config::Backend::INI.
 

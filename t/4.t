@@ -21,15 +21,15 @@ BEGIN {
 my $conf=new Config::Frontend(new Config::Backend::INI("./test.ini"));
 
 $conf->set("test","HI=Yes");
-$conf->set("test1","NO!");
+$conf->set("test1","NO!\n\nYES?");
 $conf->set("test2","Here's a problem");
 
 ok($conf->get("test") eq "HI=Yes", "initial conf in \$string -> test=HI=Yes");
-ok($conf->get("test1") eq "NO!", "initial conf in \$string -> test1=NO!");
+ok($conf->get("test1") eq "NO!\n\nYES?", "initial conf in \$string -> test1=NO!");
 ok($conf->get("test2") eq "Here's a problem", "initial conf in \$string -> test2=Here's a problem");
 
-$conf->set("section.oesterhol","account");
-ok($conf->get("section.oesterhol") eq "account", "initial conf in \$string -> oesterhol=account");
+$conf->set("section.oesterhol","account\naccount yes\nno?");
+ok($conf->get("section.oesterhol") eq "account\naccount yes\nno?", "initial conf in \$string -> oesterhol=account");
 
 
 ### Look up all variables
@@ -60,11 +60,11 @@ ok($conf->get("section.oesterhol") eq "HI!", "initial conf in \$string -> oester
 ### Delete a couple of keys
 
 $conf->del("section.oesterhol");
-$conf->del("test1");
+$conf->del("test");
 
 undef %e;
 my %e;
-$e{"test"}=0;
+$e{"test1"}=0;
 $e{"test2"}=0;
 
 undef @vars;
@@ -80,7 +80,7 @@ for my $k (keys %e) {
 }
 
 ok($all==1,"variables: --> all variables are there");
-ok((not defined $conf->get("test1")),"deleted var not there");
+ok((not defined $conf->get("test")),"deleted var not there");
 ok((not defined $conf->get("section.oesterhol")),"deleted var not there");
 
 
