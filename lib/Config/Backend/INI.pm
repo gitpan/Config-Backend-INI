@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use Config::IniFiles;
 
-our $VERSION='0.10';
+our $VERSION='0.11';
 
 my $DEFSECT="!!Conf::INI!!default!!";
 
@@ -40,10 +40,10 @@ sub DESTROY {
 
 sub set {
   my $self=shift;
-  my $var=shift;
+  my $_var=shift;
   my $val=shift;
 
-  my ($section,$var)=split /[.]/,$var,2;
+  my ($section,$var)=split /[.]/,$_var,2;
   if (not defined $var) {
     $var=$section;
     $section=$DEFSECT;
@@ -58,9 +58,9 @@ sub set {
 
 sub get {
   my $self=shift;
-  my $var=shift;
+  my $_var=shift;
 
-  my ($section,$var)=split /[.]/,$var,2;
+  my ($section,$var)=split /[.]/,$_var,2;
   if (not defined $var) {
     $var=$section;
     $section=$DEFSECT;
@@ -70,9 +70,9 @@ return $self->{"ini"}->val($section,$var);
 
 sub del {
   my $self=shift;
-  my $var=shift;
+  my $_var=shift;
 
-  my ($section,$var)=split /[.]/,$var,2;
+  my ($section,$var)=split /[.]/,$_var,2;
   if (not defined $var) {
     $var=$section;
     $section=$DEFSECT;
